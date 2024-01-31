@@ -2,15 +2,19 @@ package com.crm_test.crm_test.service;
 
 import com.crm_test.crm_test.dao.RoleDAO;
 import com.crm_test.crm_test.dao.UserDAO;
+import com.crm_test.crm_test.entity.Role;
 import com.crm_test.crm_test.entity.User;
 import com.crm_test.crm_test.user.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -46,8 +50,27 @@ public class UserServiceImpl implements UserService{
         userDAO.save(user);
     }
 
+    /* pass the roles to the  SimpleGrantedAuthority type*/
+    private Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles){
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority( role.getName() );
+            authorities.add(authority);
+        }
+
+        return authorities;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        User user = userDAO.findByUserName(username);
+
+        if (user == null) throw new UsernameNotFoundException("Invalid username or password");
+        Collection<SimpleGrantedAuthority> authorities = mapRolesToAuthorities( user.getRoles() );
+
+        return new org.springframework.security.core.userdetails.User( user.getUsername(), user.getPassword(), authorities );
     }
+
+
 }

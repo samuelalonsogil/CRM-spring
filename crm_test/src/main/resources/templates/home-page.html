@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+
+<h2>Home Page</h2>
+
+<div class="main-container">
+    <div class="user-data-container">
+        <div class="principal-data-container">
+            <p> User: <span sec:authentication="principal.username"/> </p>
+            <p> Roles: <span sec:authentication="principal.authorities"/> </p>
+        </div>
+
+        <div class="secondary-data-container">
+            <div th:if="${session.user}">
+                <p th:text=" 'First Name:' + ${session.user.firstName} + ' , Last Name: ' + ${session.user.firstName} +
+                ' , Email: ' + ${session.user.email} "></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
