@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public class UserDAOImpl implements UserDAO{
 
@@ -17,6 +19,16 @@ public class UserDAOImpl implements UserDAO{
         this.entityManager = entityManager;
     }
 
+
+    /*FIND ALL*/
+    @Override
+    public List<User> findAll() {
+        TypedQuery<User> query = entityManager.createQuery("FROM User", User.class);
+        List<User> users = query.getResultList();
+        return users;
+    }
+
+    /*FIND BY USERNAME*/
     @Override
     public User findByUserName(String username) {
         TypedQuery<User> query = entityManager.createQuery("FROM User WHERE username =:username", User.class);
@@ -33,9 +45,12 @@ public class UserDAOImpl implements UserDAO{
         return user;
     }
 
+    /*SAVE*/
     @Transactional
     @Override
     public void save(User user) {
         entityManager.merge(user);
     }
+
+
 }

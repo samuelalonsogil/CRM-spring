@@ -23,6 +23,22 @@
                 ' , Email: ' + ${session.user.email} "></p>
             </div>
         </div>
+
+
+        <div sec:authorize="hasRole('ADMIN')">
+            <p>
+                <a th:href="@{/users-list}"> user list </a>
+            </p>
+
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="logout-container">
+        <form action="#" th:action="@{/logout}" method="POST">
+            <input type="submit" value="LogOut ">
+        </form>
     </div>
 
 </div>

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -30,11 +31,19 @@ public class UserServiceImpl implements UserService{
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    /* FIND ALL */
+    @Override
+    public List<User> findAll() {
+        return userDAO.findAll();
+    }
+
+    /* FIND BY USERNAME */
     @Override
     public User findByUserName(String username) {
         return userDAO.findByUserName(username);
     }
 
+    /* SAVE */
     @Override
     public void save(WebUser webUser) {
         User user = new User();
@@ -49,6 +58,8 @@ public class UserServiceImpl implements UserService{
         user.setRoles(Arrays.asList( roleDAO.findRoleByName("ROLE_USER") ) );
         userDAO.save(user);
     }
+
+
 
     /* pass the roles to the  SimpleGrantedAuthority type*/
     private Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
