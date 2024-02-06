@@ -10,6 +10,13 @@
 
         <h2>Users List</h2>
 
+        <div class="search-user-container">
+            <form class="login-form" action="#" th:action="@{/find-user-by-name}" method="GET">
+                <input type="text" placeholder="search user">
+                <input type="submit" value="search">
+            </form>
+        </div>
+
         <div class="table-container">
 
             <table>
