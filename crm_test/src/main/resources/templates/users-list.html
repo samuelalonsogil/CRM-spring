@@ -10,11 +10,21 @@
 
         <h2>Users List</h2>
 
-        <div class="search-user-container">
-            <form class="login-form" action="#" th:action="@{/find-user-by-name}" method="GET">
-                <input type="text" placeholder="search user">
-                <input type="submit" value="search">
-            </form>
+        <div class="header-container">
+
+            <div class="search-user-container">
+                <form class="login-form" action="#" th:action="@{/find-user-by-name}" method="GET">
+                    <input type="text" name="username" placeholder="search user">
+                    <input type="submit" value="search">
+                </form>
+            </div>
+
+            <div class="add-user-container">
+                <button> <a href="register/show-registration-form"> Add new User </a> </button>
+            </div>
+
+
+
         </div>
 
         <div class="table-container">
@@ -28,6 +38,8 @@
                     <th>Last Name</th>
                     <th>email</th>
                     <th>Enabled</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
 
@@ -39,10 +51,14 @@
                         <td th:text="${user.lastName}"></td>
                         <td th:text="${user.email}"></td>
                         <td th:text="${user.enabled}"></td>
+                        <td class="edit-button"><button><a th:href="@{/show-form-edit(id=${user.id})}">Edit</a></button></td>
+                        <td class="delete-button"><button><a th:href="@{/delete(id=${user.id})}">Delete</a></button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <a href="/">Back to home page</a>
     </div>
 
 </body>

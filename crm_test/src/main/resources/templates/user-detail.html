@@ -11,10 +11,17 @@
         <h2>User details</h2>
     </div>
 
-    <div class="details-container" th:each="tUser:${user}">
-        <p th:text="${tUser.id}"></p>
-        <p th:text="${tUser.username}"></p>
+    <div class="details-container">
+        <p th:text="${user.id}"></p>
+        <p th:text="${user.username}"></p>
+        <p th:text="${user.firstName}"></p>
+        <p th:text="${user.lastName}"></p>
+        <p th:text="${user.email}"></p>
+        <p th:text="${user.enabled}"></p>
+        <p th:text="${user.roles}"></p>
     </div>
+
+    <a href="users-list">go back to users list</a>
 </div>
 
 </body>

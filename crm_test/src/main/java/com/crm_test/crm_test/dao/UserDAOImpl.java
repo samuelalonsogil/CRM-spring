@@ -28,6 +28,25 @@ public class UserDAOImpl implements UserDAO{
         return users;
     }
 
+    @Override
+    public User findById(int id) {
+        return entityManager.find(User.class, id);
+    }
+
+    @Transactional
+    @Override
+    public void saveUser(User user) {
+        entityManager.merge(user);
+    }
+
+    @Transactional
+    @Override
+    public void delete(int id) {
+        User user = entityManager.find(User.class,id);
+        entityManager.remove(user);
+    }
+
+
     /*FIND BY USERNAME*/
     @Override
     public User findByUserName(String username) {
@@ -35,7 +54,6 @@ public class UserDAOImpl implements UserDAO{
         query.setParameter("username", username);
 
         User user = null;
-
         try{
             user = query.getSingleResult();
         }catch (Exception exception){
@@ -51,6 +69,8 @@ public class UserDAOImpl implements UserDAO{
     public void save(User user) {
         entityManager.merge(user);
     }
+
+
 
 
 }

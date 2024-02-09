@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+</head>
+<body>
+
+<div class="main-container">
+
+    <div class="header-container">
+        <h2>Registration Form</h2>
+    </div>
+
+    <div class="form-container">
+        <form action="#" th:action="@{/register/process-registration-form}" th:object="${webUser}" method="POST">
+
+            <div th:if="${param.registrationError}">
+                <div>
+                    <span th:text="{param.registrationError}"></span>
+                </div>
+            </div>
+
+            <!-- USERNAME -->
+            <div>
+                <input type="text" th:field="*{username}" placeholder="username" >
+            </div>
+
+            <div th:if="${#fields.hasErrors('username')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('username')}" th:text="'User name ' + ${err}"></li>
+                </ul>
+            </div>
+
+            <!-- PASSWORD -->
+            <div>
+                <input type="text" th:field="*{password}" placeholder="password" >
+            </div>
+
+            <div th:if="${#fields.hasErrors('password')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('password')}" th:text="'Password ' + ${err}"></li>
+                </ul>
+            </div>
+
+            <!-- FIRST NAME -->
+            <div>
+                <input type="text" th:field="*{firstName}" placeholder="First Name" >
+            </div>
+
+            <div th:if="${#fields.hasErrors('firstName')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('firstName')}" th:text="'First Name ' + ${err}"></li>
+                </ul>
+            </div>
+
+            <!-- LAST NAME -->
+            <div>
+                <input type="text" th:field="*{lastName}" placeholder="Last name" >
+            </div>
+
+            <div th:if="${#fields.hasErrors('lastName')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('lastName')}" th:text="'Last Name ' + ${err}"></li>
+                </ul>
+            </div>
+
+            <!-- EMAIL -->
+            <div>
+                <input type="text" th:field="*{email}" placeholder="email" >
+            </div>
+
+            <div th:if="${#fields.hasErrors('email')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('email')}" th:text=" 'email ' + ${err}"></li>
+                </ul>
+            </div>
+
+            <div sec:authorize="hasRole('ADMIN')">
+                <input type="checkbox" th:field="*{enabled}" name="enabled">
+                <span>Enabled</span>
+            </div>
+
+            <!-- REGISTRATION BUTTON -->
+            <div>
+                <input type="submit" value="register">
+            </div>
+
+            <a href="javascript:history.back()">Go Back</a>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

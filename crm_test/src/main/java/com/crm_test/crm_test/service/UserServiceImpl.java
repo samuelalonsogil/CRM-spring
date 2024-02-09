@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,31 @@ public class UserServiceImpl implements UserService{
         return userDAO.findAll();
     }
 
+    @Override
+    public User findById(int id) {
+        return userDAO.findById(id);
+    }
+
+
+    @Override
+    public void saveUser(User user) {
+
+        if (!user.isEnabled() ){
+            /* gives user default role of "USER" */
+            user.setRoles(Arrays.asList( roleDAO.findRoleByName("ROLE_USER") ) );
+        }else{
+            user.setRoles(Arrays.asList( roleDAO.findRoleByName("ROLE_USER"), roleDAO.findRoleByName("ROLE_ADMIN") ) );
+        }
+
+        userDAO.saveUser(user);
+    }
+
+    @Override
+    public void delete(int id) {
+        userDAO.delete(id);
+    }
+
+
     /* FIND BY USERNAME */
     @Override
     public User findByUserName(String username) {
@@ -53,9 +79,15 @@ public class UserServiceImpl implements UserService{
         user.setFirstName( webUser.getFirstName() );
         user.setLastName( webUser.getLastName() );
         user.setEmail( webUser.getEmail() );
+        user.setEnabled( webUser.isEnabled() );
 
-        /* gives user default role of "USER" */
-        user.setRoles(Arrays.asList( roleDAO.findRoleByName("ROLE_USER") ) );
+        if (!user.isEnabled() ){
+            /* gives user default role of "USER" */
+            user.setRoles(Arrays.asList( roleDAO.findRoleByName("ROLE_USER") ) );
+        }else{
+            user.setRoles(Arrays.asList( roleDAO.findRoleByName("ROLE_USER"), roleDAO.findRoleByName("ROLE_ADMIN") ) );
+        }
+
         userDAO.save(user);
     }
 

@@ -3,8 +3,8 @@ package com.crm_test.crm_test.user;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -15,11 +15,11 @@ import lombok.ToString;
 public class WebUser {
 
     @NotNull
-    @Size(min = 5, message = "username must be at least 5 characters")
+    @Size(min = 1, message = "username is required")
     private String username;
 
     @NotNull
-    @Size(min = 8, message = "password must be at least 5 characters")
+    @Size(min = 3, message = "password must be at least 3 characters")
     private String password;
 
     @NotNull
@@ -34,4 +34,7 @@ public class WebUser {
     @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "enter a valid email")
     @Size(min = 1, message = "can't be empty")
     private String email;
+
+    @NotNull
+    private boolean enabled;
 }
